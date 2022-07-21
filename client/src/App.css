@@ -1,0 +1,44 @@
+.app{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.heading{
+  font-size: 100px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.add{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container{
+  width: 500px;
+  min-height: 300px;
+  padding: 10px;
+  color: #f5f5f5;
+}
+
+.todo_container{
+  margin: 10px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.textbox{
+  display: flex;
+}
+
+.todo_comp{
+  margin: 10px 0;
+  text-decoration: line-through;
+}
+
+.todo_incomp{
+  margin: 10px 0;
+}
