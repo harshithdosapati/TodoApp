@@ -15,6 +15,9 @@ const TodoSchema = new Schema({
   },
   order: {
     type: Number
+  },
+  user_id: {
+    type: Schema.Types.ObjectId, ref: 'user'
   }
 });
 
