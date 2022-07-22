@@ -1,4 +1,4 @@
-import { GET_TODOS, ADD_TODO, DELETE_TODO, TOGGLE_TODO} from './types';
+import { GET_TODOS, ADD_TODO, DELETE_TODO, TOGGLE_TODO, GET_COMPLETED} from './types';
 import axios from 'axios';
 
 export const getTodos = () => dispatch => {
@@ -13,7 +13,6 @@ export const getTodos = () => dispatch => {
 };
 
 export const addTodo = (todo) => dispatch => {
-  console.log(todo)
   axios
     .post('/api/todos', todo)
     .then(res => 
@@ -23,7 +22,7 @@ export const addTodo = (todo) => dispatch => {
       })
     )
 
-}
+};
 
 export const deleteTodo = (id) => dispatch => {
   axios.delete(`/api/todos/${id}`).then(res =>
@@ -41,4 +40,10 @@ export const toggleTodo = (id,data) => dispatch => {
       payload: res.data
     })  
   )
-}
+};
+
+export const getCompleted = () => {
+  return {
+    type: GET_COMPLETED
+  };
+};

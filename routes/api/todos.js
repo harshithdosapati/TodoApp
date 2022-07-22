@@ -9,6 +9,7 @@ const Todo = require('../../models/Todo');
 // @desc   Get all Todos
 router.get('/', (req, res) => {
   Todo.find()
+    .sort({ order: -1 })
     .then(todos => res.json(todos));
 });
 
@@ -26,7 +27,7 @@ router.post('/', (req, res) => {
     title: req.body.title,
     completed: false,
     url: '',
-    order: req.body.order
+    order: req.body.order ? req.body.order : Date.now()
   });
 
   newTodo.save().then(todo => { 
@@ -59,6 +60,7 @@ router.patch('/:id', (req, res) => {
     if(body.title != undefined) todo.title = body.title;
     if(body.completed != undefined) todo.completed = body.completed;
     if(body.order != undefined) todo.order = body.order;
+    else todo.order = Date.now();
     todo.save();
     return res.json(todo)
   })

@@ -1,10 +1,14 @@
-import { Button, Checkbox, Paper, TextField } from '@mui/material';
+import { Button, Checkbox, Paper, TextField, IconButton, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getTodos, addTodo, deleteTodo, toggleTodo } from '../actions/todoActions';
+import { getTodos, addTodo, deleteTodo, toggleTodo, getCompleted } from '../actions/todoActions';
 import PropTypes from 'prop-types';
 
 class TodoList extends Component {
+  state = {
+    name: ''
+  }
 
   componentDidMount() {
     this.props.getTodos();
@@ -15,30 +19,33 @@ class TodoList extends Component {
   }
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value});
+    this.setState({ name: e.target.value});
   }
 
   onSubmit = e => {
     e.preventDefault();
 
     const newTodo = {
-      title: "code3"
+      title: this.state.name
     }
 
     this.props.addTodo(newTodo);
   }
 
   onCheckboxClick = (id,completed) => {
-    completed = !completed
     const data = {
-      completed: completed
+      completed: !completed
     }
     this.props.toggleTodo(id,data)
   }
 
+  onCompletedClick = () => {
+    this.props.getCompleted()
+  }
+
   render() {
     const { todos } = this.props.todo;
-    const activeTodos = todos.filter(todo => todo.completed != true);
+    const activeTodos = todos.filter(todo => todo.completed !== true);
     return(
       <div>
         <form
@@ -50,10 +57,10 @@ class TodoList extends Component {
             variant='outlined'
             size='small'
             style={{ width: "80%" }}
-            type='String'
+            type='text'
             required={true}
             onChange = {this.onChange}
-            placeholder="Add new Todo"
+            placeholder="What needs to be done?"
           />
           <Button
             style={{ height: "40px" }}
@@ -78,26 +85,40 @@ class TodoList extends Component {
               {todo.title}
             </div>
           </div>
-          <Button
+          <IconButton
             onClick={this.onDeleteClick.bind(this, todo._id)}
-          color='secondary'
+          color='primary'
           >
-            X
-          </Button>
+            <DeleteIcon/>
+          </IconButton>
         </Paper>
         ))}
-        <Paper className='footer'>
+        <Paper className='footer' elevation={0}>
           <div className='count'> {activeTodos.length} items left </div>
+          <ToggleButtonGroup
+            color="primary"
+            //size='small'
+            sx={{
+              height: 30,
+            }}
+            //value={alignment}
+            exclusive
+            
+          >
+            <ToggleButton sx={{textTransform: 'none'}}>All</ToggleButton>
+            <ToggleButton sx={{textTransform: 'none'}} onClick={this.onCompletedClick.bind(this)}>Completed</ToggleButton>
+            <ToggleButton sx={{textTransform: 'none'}}>Incomplete</ToggleButton>
+          </ToggleButtonGroup>
         </Paper>
       </div>
     )
   }
 }
 
-TodoList.propTypes = {
+/*TodoList.propTypes = {
   getTodos: PropTypes.func.isRequired,
   todo: PropTypes.object.isRequired
-}
+}*/
 
 const mapStateToProps = (state) => ({
   todo: state.todo
@@ -105,5 +126,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-   { getTodos, addTodo, deleteTodo, toggleTodo }
+   { getTodos, addTodo, deleteTodo, toggleTodo, getCompleted }
 )(TodoList);
