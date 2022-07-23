@@ -7,6 +7,7 @@ const Todo = require('../../models/Todo');
 
 // @route  GET api/todos
 // @desc   Get all Todos
+// @Private route
 router.get('/', auth, (req, res) => {
   Todo.find({user_id: req.user.id})
     .sort({ order: -1 })
@@ -22,6 +23,7 @@ router.get('/:id', (req, res) => {
 
 // @route  POST api/todos
 // @desc   Create a Todo
+// @Private route
 router.post('/', auth, (req, res) => {
   const newTodo = new Todo({
     title: req.body.title,
@@ -39,6 +41,7 @@ router.post('/', auth, (req, res) => {
 
 // @route  DELETE api/todos/:id
 // @desc   Delete a Todo
+// @Private route
 router.delete('/:id', auth, (req, res) => {
   Todo.findById(req.params.id)
     .then(todo => todo.remove().then(() => res.json({success: true})))
@@ -47,6 +50,7 @@ router.delete('/:id', auth, (req, res) => {
 
 // @route  DELETE api/todos
 // @desc   Delete all Todos
+// @Private route
 router.delete('/', auth, (req, res) => {
   Todo.deleteMany()
     .then(() => res.json({success: true}));
@@ -54,6 +58,7 @@ router.delete('/', auth, (req, res) => {
 
 // @route  PATCH api/todos/:id
 // @desc   Patch a Todo
+// @Private route
 router.patch('/:id', auth, (req, res) => {
   const body = req.body;
   Todo.findById(req.params.id)

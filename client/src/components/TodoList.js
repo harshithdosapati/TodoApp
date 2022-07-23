@@ -13,6 +13,7 @@ class TodoList extends Component {
   componentDidMount() {
     this.props.getTodos();
   }
+  
 
   onDeleteClick = (id) => {
     this.props.deleteTodo(id);
@@ -115,16 +116,12 @@ class TodoList extends Component {
   }
 }
 
-/*TodoList.propTypes = {
-  getTodos: PropTypes.func.isRequired,
-  todo: PropTypes.object.isRequired
-}*/
-
 const mapStateToProps = (state) => ({
-  todo: state.todo
+  todo: state.todo,
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
   mapStateToProps,
-   { getTodos, addTodo, deleteTodo, toggleTodo, getCompleted }
+   { getTodos, addTodo, deleteTodo, toggleTodo, getCompleted, }
 )(TodoList);

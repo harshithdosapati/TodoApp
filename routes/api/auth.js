@@ -10,6 +10,7 @@ const User = require('../../models/User');
 
 // @route  POST api/auth
 // @desc   Authenticate a User
+// @Public route
 router.post('/', (req, res) => {
   const { email, password} = req.body;
 
@@ -49,6 +50,7 @@ router.post('/', (req, res) => {
 
 // @route  GET api/auth/user
 // @desc   Get user data
+// @Private route
 router.get('/user', auth, (req,res) => {
   User.findById(req.user.id)
     .select('-password')
