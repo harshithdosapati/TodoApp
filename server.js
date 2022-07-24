@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const todos = require('./routes/api/todos');
+const config = require('config');
 
 const app = express();
 
@@ -13,14 +13,18 @@ app.use(function(req, res, next) {
   next();
 });
 
-const db = require('./config/keys').mongoURI;
+// Connect to Database
+const db = config.get('mongoURI');
 
 mongoose
   .connect(db)
   .then(() => console.log('Database Connected'))
   .catch(err => console.log(err));
 
-app.use('/api/todos',todos);
+app.use('/api/todos', require('./routes/api/todos'));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
+
 
 const port = process.env.PORT || 2000;
 

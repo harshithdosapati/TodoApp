@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Database Schema to Store Todos
 const TodoSchema = new Schema({
   title: {
     type: String,
@@ -15,6 +16,9 @@ const TodoSchema = new Schema({
   },
   order: {
     type: Number
+  },
+  user_id: {
+    type: Schema.Types.ObjectId, ref: 'user'
   }
 });
 
