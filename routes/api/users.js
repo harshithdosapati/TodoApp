@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
   const {name, email, password} = req.body;
 
   if(!name || !email || !password){
-    return res.status(400).json({msg: 'please enter all fields'})
+    return res.status(400).json({msg: 'Please enter all fields'})
   }
 
   User.findOne({email})
@@ -27,6 +27,8 @@ router.post('/', (req, res) => {
         password
       });
 
+      // Hashing the Password to store in database and generate token for user
+       
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if(err) throw err;

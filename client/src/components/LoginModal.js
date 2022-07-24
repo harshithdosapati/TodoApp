@@ -87,7 +87,7 @@ class LoginModal extends Component {
   render() {
     return (
       <div>
-        <Button color='inherit' onClick={this.handleOpen}>Login</Button>
+        <Button color='inherit' variant='outlined' onClick={this.handleOpen}>Login</Button>
         <Modal
           open={this.state.isOpen}
           onClose={this.handleClose}
@@ -108,7 +108,7 @@ class LoginModal extends Component {
                 />
                 <InputLabel className='input'>Password</InputLabel>
                 <TextField
-                  type='text'
+                  type='password'
                   name='password'
                   id='password'
                   placeholder='Password'

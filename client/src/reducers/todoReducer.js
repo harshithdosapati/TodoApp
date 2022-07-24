@@ -1,7 +1,17 @@
-import { GET_TODOS, ADD_TODO, DELETE_TODO, TOGGLE_TODO, GET_COMPLETED } from '../actions/types';
+import {
+   GET_TODOS, 
+   ADD_TODO, 
+   DELETE_TODO, 
+   TOGGLE_TODO, 
+   CLEAR_TODOS,
+   GET_LENGTH,
+   GET_COMPLETED_TODOS, 
+   GET_ACTIVE_TODOS 
+  } from '../actions/types';
 
 const initialState = {
-  todos: []
+  todos: [],
+  length: null
 }
 
 export default function(state = initialState, action) {
@@ -26,11 +36,26 @@ export default function(state = initialState, action) {
         ...state,
         todos: [action.payload, ...state.todos.filter(todo =>todo._id !== action.payload._id)]
       }
-    case GET_COMPLETED:
+    case CLEAR_TODOS:
       return{
         ...state,
-        todos: state.todos.filter(todo => todo.completed == true)
+        todos: []
       }
+    case GET_LENGTH:
+      return{
+        ...state,
+        length: action.payload.filter(todo => todo.completed === false).length
+      }
+    case GET_COMPLETED_TODOS:
+      return{
+        ...state,
+        todos: action.payload.filter(todo => todo.completed === true)
+      }
+    case GET_ACTIVE_TODOS:
+      return{
+        ...state,
+        todos: action.payload.filter(todo => todo.completed === false)
+        }
     default:
       return state;
   }

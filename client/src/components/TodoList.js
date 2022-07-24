@@ -1,20 +1,28 @@
-import { Button, Checkbox, Paper, TextField, IconButton, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Button, Checkbox, Paper, TextField, IconButton, ToggleButtonGroup, ToggleButton, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import React, { Component } from 'react';
+import React, { Component, Text } from 'react';
 import { connect } from 'react-redux';
-import { getTodos, addTodo, deleteTodo, toggleTodo, getCompleted } from '../actions/todoActions';
-import PropTypes from 'prop-types';
+import { getTodos, addTodo, deleteTodo, toggleTodo, clearTodos, getCompletedTodos, getActiveTodos, getLength} from '../actions/todoActions';
 
 class TodoList extends Component {
   state = {
-    name: ''
+    name: '',
+    toggle: "all"
   }
 
   componentDidMount() {
     this.props.getTodos();
   }
-  
 
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.isAuthenticated !== this.props.isAuthenticated) {
+      if(this.props.isAuthenticated === true) this.props.getTodos();
+      else this.props.clearTodos();
+    }
+    if(prevProps !== this.props) return this.props.getLength();
+  }
+  
   onDeleteClick = (id) => {
     this.props.deleteTodo(id);
   }
@@ -31,6 +39,7 @@ class TodoList extends Component {
     }
 
     this.props.addTodo(newTodo);
+    this.setState({ name : '' })
   }
 
   onCheckboxClick = (id,completed) => {
@@ -40,15 +49,32 @@ class TodoList extends Component {
     this.props.toggleTodo(id,data)
   }
 
+  onAllClick = () => {
+    this.props.getTodos()
+  }
+
   onCompletedClick = () => {
-    this.props.getCompleted()
+    this.props.getCompletedTodos()
+  }
+
+  onIncompleteClick = () => {
+    this.props.getActiveTodos()
+  }
+
+  handleToggleChange = (e, newtoggle) => {
+    if(newtoggle !== null){
+      this.setState({
+        toggle: newtoggle
+      })
+    }
   }
 
   render() {
-    const { todos } = this.props.todo;
-    const activeTodos = todos.filter(todo => todo.completed !== true);
+    const { todos, length } = this.props.todo;
+    const isAuthenticated = this.props.isAuthenticated;
     return(
       <div>
+        {!isAuthenticated ? <Alert severity='warning'>Please login to manage your todos</Alert> :null}
         <form
           onSubmit = {this.onSubmit}
           className='add'
@@ -59,9 +85,9 @@ class TodoList extends Component {
             size='small'
             style={{ width: "80%" }}
             type='text'
-            required={true}
+            value={this.state.name}
             onChange = {this.onChange}
-            placeholder="What needs to be done?"
+            placeholder="Add your task here"
           />
           <Button
             style={{ height: "40px" }}
@@ -95,20 +121,19 @@ class TodoList extends Component {
         </Paper>
         ))}
         <Paper className='footer' elevation={0}>
-          <div className='count'> {activeTodos.length} items left </div>
+          <div className='count'> {isAuthenticated? `${length} items left` : ''} </div>
           <ToggleButtonGroup
             color="primary"
-            //size='small'
             sx={{
               height: 30,
             }}
-            //value={alignment}
+            value={this.state.toggle}
             exclusive
-            
+            onChange={this.handleToggleChange}
           >
-            <ToggleButton sx={{textTransform: 'none'}}>All</ToggleButton>
-            <ToggleButton sx={{textTransform: 'none'}} onClick={this.onCompletedClick.bind(this)}>Completed</ToggleButton>
-            <ToggleButton sx={{textTransform: 'none'}}>Incomplete</ToggleButton>
+            <ToggleButton value="all" sx={{textTransform: 'none'}}onClick={this.onAllClick.bind(this)}>All</ToggleButton>
+            <ToggleButton value="completed" sx={{textTransform: 'none'}} onClick={this.onCompletedClick.bind(this)}>Completed</ToggleButton>
+            <ToggleButton value="incomplete" sx={{textTransform: 'none'}}onClick={this.onIncompleteClick.bind(this)}>Incomplete</ToggleButton>
           </ToggleButtonGroup>
         </Paper>
       </div>
@@ -123,5 +148,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-   { getTodos, addTodo, deleteTodo, toggleTodo, getCompleted, }
+   { getTodos, addTodo, deleteTodo, toggleTodo, clearTodos, getCompletedTodos, getActiveTodos, getLength }
 )(TodoList);

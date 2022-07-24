@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import { Provider } from 'react-redux';
 import store from './store';
 import TodoList from './components/TodoList';
@@ -7,7 +7,6 @@ import NavBar from './components/NavBar';
 import './App.css';
 import {loadUser} from './actions/authActions';
 
-import RegisterModal from './components/RegisterModal';
 
 class App extends Component {
   componentDidMount() {
@@ -20,7 +19,7 @@ class App extends Component {
         <NavBar/>
         <div className='app'>
           <Paper elevation={5} className="container">
-            <div className='heading'> todos</div>
+            <div className='heading'>todos</div>
             <TodoList />
           </Paper>
         </div>

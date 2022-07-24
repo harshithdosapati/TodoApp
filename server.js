@@ -13,6 +13,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Connect to Database
 const db = config.get('mongoURI');
 
 mongoose

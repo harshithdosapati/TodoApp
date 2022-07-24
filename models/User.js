@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+//Database Schema to store Userdetails
 const UserSchema = new Schema({
   name: {
     type: String,

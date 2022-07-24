@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Database Schema to Store Todos
 const TodoSchema = new Schema({
   title: {
     type: String,

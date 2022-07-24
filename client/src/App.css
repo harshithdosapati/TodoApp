@@ -6,8 +6,9 @@
 
 .heading{
   font-size: 100px;
-  font-weight: bold;
   text-align: center;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
 }
 
 .add{
@@ -35,12 +36,18 @@
 }
 
 .todo_comp{
-  margin: 10px 0;
+  margin-top: 11px;
   text-decoration: line-through;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 200;
+  color:  rgb(102, 133, 143);
 }
 
 .todo_incomp{
-  margin: 10px 0;
+  font-size: 19px;
+  margin-top: 9px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
 }
 
 .footer{
@@ -54,4 +61,11 @@
 
 .input{
   margin-bottom: 30;
+}
+
+.count{
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  margin-top: 5px;
+  margin-left: 5px;
 }

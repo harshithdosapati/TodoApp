@@ -15,17 +15,18 @@ router.post('/', (req, res) => {
   const { email, password} = req.body;
 
   if(!email || !password){
-    return res.status(400).json({msg: 'please enter all fields'})
+    return res.status(400).json({msg: 'Please enter all fields'})
   }
 
   User.findOne({email})
     .then(user => {
-      if(!user) return res.status(400).json({msg: 'User Does not exist'})
+      if(!user) return res.status(400).json({msg: 'User does not exist'})
 
+      // Compare user entered password with hashed password and return a token is password is verified
 
       bcrypt.compare(password, user.password)
         .then(isMatch => {
-          if(!isMatch) return res.status(400).json({msg: 'Invalid credentials'});
+          if(!isMatch) return res.status(400).json({msg: 'Invalid Credentials'});
 
           jwt.sign(
             {id: user.id },

@@ -22,8 +22,10 @@ class NavBar extends Component {
     const userAccess = (
       <Fragment>
         <span className='welcome-text'>
-          <Typography>
-          <strong>{ user? `Welcome ${user.name}` : ''} </strong>
+          <Typography
+            sx={{paddingRight: 4}}
+          >
+          <strong>{ user? `Welcome ${user.name}!` : ''} </strong>
           </Typography>
         </span>
         <Logout/>
