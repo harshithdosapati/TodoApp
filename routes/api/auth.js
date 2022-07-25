@@ -39,7 +39,8 @@ router.post('/', (req, res) => {
                 user: {
                   id: user.id,
                   name: user.name,
-                  email: user.email
+                  email: user.email,
+                  accounts: user.accounts
                 }
               })
             }
@@ -60,3 +61,23 @@ router.get('/user', auth, (req,res) => {
 
 
 module.exports = router;
+
+//@route GET api/auth/account
+//@desc Get all users for an account
+// @Private route
+router.get('/account', auth, (req,res) => {
+  User.find({"accounts.id": req.body.account_id, "accounts.accepted": true})
+    .then(users => res.json(users));
+})
+
+
+router.patch('/account', auth, (req,res) => {
+  const email = req.body.email;
+  User.findOne({email})
+    .then(user => {
+      const newAccount = {"id": req.body.account_id,"accepted": false}
+      user.accounts.push(newAccount);
+      user.save();
+      return res.json(user.accounts);
+    })
+})

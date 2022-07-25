@@ -19,6 +19,9 @@ const TodoSchema = new Schema({
   },
   user_id: {
     type: Schema.Types.ObjectId, ref: 'user'
+  },
+  account_id: {
+    type: Schema.Types.ObjectId, ref: 'accounts'
   }
 });
 

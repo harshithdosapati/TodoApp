@@ -9,7 +9,7 @@ const Todo = require('../../models/Todo');
 // @desc   Get all Todos
 // @Private route
 router.get('/', auth, (req, res) => {
-  Todo.find({user_id: req.user.id})
+  Todo.find({account_id: req.body.account_id})
     .sort({ order: -1 })
     .then(todos => res.json(todos));
 });
@@ -30,7 +30,8 @@ router.post('/', auth, (req, res) => {
     completed: false,
     url: '',
     order: req.body.order ? req.body.order : Date.now(),
-    user_id: req.user.id
+    user_id: req.user.id,
+    account_id: req.body.account_id
   });
 
   newTodo.save().then(todo => { 

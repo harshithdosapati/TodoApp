@@ -16,10 +16,21 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  default_account: {
+    type: Schema.ObjectId, ref: 'accounts'
+  },
+  accounts: [{
+    id: {
+      type: Schema.Types.ObjectId, ref: 'accounts'
+    },
+    accepted: {
+      type: Boolean
+    }
+  }],
   register_date: {
     type: Date,
     default : Date.now
   } 
 });
 
-module.exports = Todo = mongoose.model('user', UserSchema);
+module.exports = User = mongoose.model('user', UserSchema);
