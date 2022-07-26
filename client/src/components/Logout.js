@@ -11,9 +11,11 @@ export class Logout extends Component {
   render() {
     return (
       <Fragment>
-        <Button color="inherit" variant="outlined" onClick={this.props.logout}>
-          Logout
-        </Button>
+        <div style={{ paddingLeft: 5 }}>
+          <Button color="inherit" variant="outlined" onClick={this.props.logout}>
+            Logout
+          </Button>
+        </div>
       </Fragment>
     )
   }

@@ -39,7 +39,9 @@ router.post('/', (req, res) => {
                 user: {
                   id: user.id,
                   name: user.name,
-                  email: user.email
+                  email: user.email,
+                  default_account: user.default_account,
+                  accounts: user.accounts
                 }
               })
             }
@@ -60,3 +62,37 @@ router.get('/user', auth, (req,res) => {
 
 
 module.exports = router;
+
+//@route GET api/auth/account
+//@desc Get all users for an account
+// @Private route
+router.get('/account', auth, (req,res) => {
+  User.find({"accounts.id": req.account_id, "accounts.name": req.account_name, "accounts.accepted": true})
+    .then(users => res.json(users));
+})
+
+
+router.patch('/account', auth, (req,res) => {
+  const email = req.body.email
+  User.findOne({email})
+    .then(user => {
+      const newAccount = {"id": req.account_id, "name": req.account_name, "accepted": false}
+      user.accounts.push(newAccount);
+      user.save();
+      return res.json(user.accounts);
+    })
+    .catch(err => res.status(404).json({msg: 'User does not exist'}));
+})
+
+router.post('/account', auth, (req,res) => {
+  const name = req.body.account_name;
+  const newAccount = new Account({name: name});
+  newAccount.save();
+  User.findById(req.user.id)
+   .then(user => {
+    const account = {"id": newAccount._id, "name": newAccount.name, "accepted": true}
+    user.accounts.push(account);
+    user.save();
+    return res.json(user.accounts);
+   })
+})

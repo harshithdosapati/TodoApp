@@ -8,6 +8,8 @@ import Logout from './Logout';
 import LoginModal from './LoginModal';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import AccountModal from './AccountModal';
+import ManageModal from './ManageModal';
 
 class NavBar extends Component {
 
@@ -20,13 +22,8 @@ class NavBar extends Component {
 
     const userAccess = (
       <Fragment>
-        <span className='welcome-text'>
-          <Typography
-            sx={{paddingRight: 4}}
-          >
-          <strong>{ user? `Welcome ${user.name}!` : ''} </strong>
-          </Typography>
-        </span>
+        <ManageModal/>
+        <AccountModal/>
         <Logout/>
       </Fragment>
     )
@@ -42,8 +39,8 @@ class NavBar extends Component {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Todos
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: 'flex' }}>
+              Current Account: {this.props.current_account}
             </Typography>
             { isAuthenticated ? userAccess : guestAccess }
           </Toolbar>
@@ -54,7 +51,8 @@ class NavBar extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  current_account: state.account.account_name
 })
 
 export default connect(mapStateToProps, null)(NavBar);

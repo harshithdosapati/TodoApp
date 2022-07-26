@@ -17,8 +17,14 @@ const TodoSchema = new Schema({
   order: {
     type: Number
   },
+  user_name: {
+    type: String
+  },
   user_id: {
     type: Schema.Types.ObjectId, ref: 'user'
+  },
+  account_id: {
+    type: Schema.Types.ObjectId, ref: 'accounts'
   }
 });
 
