@@ -79,6 +79,8 @@ export const logout = () => {
 //Setup config/headers and token
 export const tokenConfig = getState => {
   const token = getState().auth.token;
+  const account_id = getState().account.account_id;
+  const account_name = getState().account.account_name;
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -87,6 +89,12 @@ export const tokenConfig = getState => {
 
   if(token) {
     config.headers['x-auth-token'] = token;
+  }
+  if(account_id) {
+    config.headers['account_id'] = account_id;
+  }
+  if(account_name) {
+    config.headers ['account_name'] = account_name;
   }
   return config;
 }

@@ -20,7 +20,10 @@ class TodoList extends Component {
       if(this.props.isAuthenticated === true) this.props.getTodos();
       else this.props.clearTodos();
     }
-    if(prevProps !== this.props) return this.props.getLength();
+    if(prevProps.account_id !== this.props.account_id) {
+      this.props.getTodos();
+    }
+    if(prevProps.todo !== this.props.todo) return this.props.getLength();
   }
   
   onDeleteClick = (id) => {
@@ -35,7 +38,8 @@ class TodoList extends Component {
     e.preventDefault();
 
     const newTodo = {
-      title: this.state.name
+      title: this.state.name,
+      user_name: this.props.user.name
     }
 
     this.props.addTodo(newTodo);
@@ -72,6 +76,7 @@ class TodoList extends Component {
   render() {
     const { todos, length } = this.props.todo;
     const isAuthenticated = this.props.isAuthenticated;
+    const account_id = this.props.account_id;
     return(
       <div>
         {!isAuthenticated ? <Alert severity='warning'>Please login to manage your todos</Alert> :null}
@@ -111,6 +116,8 @@ class TodoList extends Component {
             >
               {todo.title}
             </div>
+            <div className='creator'>Created By : {todo.user_name}</div>
+            
           </div>
           <IconButton
             onClick={this.onDeleteClick.bind(this, todo._id)}
@@ -143,7 +150,9 @@ class TodoList extends Component {
 
 const mapStateToProps = (state) => ({
   todo: state.todo,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  account_id: state.account.account_id,
+  user: state.auth.user
 });
 
 export default connect(

@@ -17,11 +17,19 @@ const UserSchema = new Schema({
     required: true
   },
   default_account: {
-    type: Schema.ObjectId, ref: 'accounts'
+    id:{
+      type: Schema.ObjectId, ref: 'accounts'
+    },
+    name: {
+      type: String
+    }
   },
   accounts: [{
     id: {
       type: Schema.Types.ObjectId, ref: 'accounts'
+    },
+    name: {
+      type: String
     },
     accepted: {
       type: Boolean

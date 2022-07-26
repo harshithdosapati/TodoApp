@@ -4,12 +4,13 @@ const auth = require('../../middleware/auth');
 
 
 const Todo = require('../../models/Todo');
+const User = require('../../models/User')
 
 // @route  GET api/todos
 // @desc   Get all Todos
 // @Private route
 router.get('/', auth, (req, res) => {
-  Todo.find({account_id: req.body.account_id})
+  Todo.find({account_id: req.account_id})
     .sort({ order: -1 })
     .then(todos => res.json(todos));
 });
@@ -31,7 +32,8 @@ router.post('/', auth, (req, res) => {
     url: '',
     order: req.body.order ? req.body.order : Date.now(),
     user_id: req.user.id,
-    account_id: req.body.account_id
+    user_name : req.body.user_name,
+    account_id: req.account_id
   });
 
   newTodo.save().then(todo => { 

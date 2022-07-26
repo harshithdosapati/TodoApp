@@ -30,8 +30,8 @@ router.post('/', (req, res) => {
         name,
         email,
         password,
-        default_account : newAccount.id,
-        accounts : [{"id": newAccount.id, "accepted": true }]
+        default_account : { "id": newAccount.id, "name": name },
+        accounts : [{"id": newAccount.id, "name":name, "accepted": true }]
       });
 
       // Hashing the Password to store in database and generate token for user
@@ -54,7 +54,9 @@ router.post('/', (req, res) => {
                     user: {
                       id: user.id,
                       name: user.name,
-                      email: user.email
+                      email: user.email,
+                      default_account: user.default_account,
+                      accounts: user.accounts
                     }
                   })
                 }
